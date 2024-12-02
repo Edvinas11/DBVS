@@ -1,9 +1,9 @@
 Table clients {
-  client_id integer [primary key]
+  id integer [primary key]
   
   name text
+  personal_code text
   lastname text
-  personal_code text [unique]
   birth_date date
   address_street text
   address_city text
@@ -11,17 +11,19 @@ Table clients {
 }
 
 Table cars {
-  car_id integer [primary key]
+  id integer [primary key]
   
   brand text
+  vin text
   model text
+  type text
   price_per_day decimal(10, 2)
 }
 
 Table orders {
-  order_id integer [primary key]
+  order_nr integer [primary key]
   
-  client_id integer [not null, ref: > clients.client_id]
+  client_id integer [not null, ref: > clients.id]
   order_date_start date [not null]
   order_date_end date [not null]
   price decimal(10, 2)
@@ -30,12 +32,9 @@ Table orders {
 }
 
 Table order_cars {
-  id integer [primary key]
+  order_nr integer [ref: > orders.order_nr]
+  car_id integer [ref: > cars.id]
   
-  order_id integer [ref: > orders.order_id]
-  car_id integer [ref: > cars.car_id]
-  
-  days_rented integer
-  total_price decimal(10, 2) // Relationship attribute
+  total_price decimal(10, 2)
 }
 
